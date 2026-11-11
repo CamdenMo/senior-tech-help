@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://camdenmo.github.io/senior-tech-help/sitemap.xml
+Sitemap: https://communitytechcare.com/sitemap.xml
