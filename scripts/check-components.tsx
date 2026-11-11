@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
 import { GoogleFormEmbed } from "../src/components/GoogleFormEmbed";
+import { exampleSession } from "../src/data/content";
+
+assert.equal(
+  exampleSession.reduce((minutes, segment) => minutes + segment.minutes, 0),
+  120,
+  "The sample session must total two hours.",
+);
 
 const form = {
   businessName: "Example Community Support",
-  contactEmail: "hello@example.com",
+  contactEmail: "team@community.test",
   googleFormHeight: 1675,
   googleFormEmbedUrl:
     "https://docs.google.com/forms/d/e/example/viewform?embedded=true&usp=sharing",
@@ -45,17 +52,21 @@ assert.ok(
   "The fallback must remove embedded=true and preserve other query parameters.",
 );
 assert.ok(
-  configured.includes("Open Contact Form"),
-  "Phones must offer direct form access.",
+  configured.includes('class="form-embed-panel"') &&
+    !configured.includes("inline-form-toggle"),
+  "The embedded form must remain available at every viewport width without a disclosure.",
 );
 assert.ok(
   configured.includes("Open Form in New Tab"),
   "Desktop must retain a visible fallback link.",
 );
+const unconfiguredEmail = renderToStaticMarkup(
+  <GoogleFormEmbed config={{ ...form, googleFormEmbedUrl: "", contactEmail: "" }} />,
+);
 assert.ok(
-  configured.includes('aria-expanded="false"') &&
-    configured.includes('id="inline-contact-form"'),
-  "The inline form disclosure must start collapsed with a real controlled target.",
+  unconfiguredEmail.includes("Google Form not configured") &&
+    !unconfiguredEmail.includes("mailto:"),
+  "Missing configuration must show a clear placeholder without an unusable email link.",
 );
 
 const explicit = renderToStaticMarkup(
@@ -74,8 +85,8 @@ assert.ok(
 );
 assert.equal(
   (explicit.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length,
-  2,
-  "Both new-tab links must protect the opener.",
+  1,
+  "The new-tab link must protect the opener.",
 );
 
 for (const url of [
@@ -93,5 +104,5 @@ for (const url of [
   );
 }
 console.info(
-  "Verified configured/unconfigured contact forms, mobile direct access, accessible disclosure markup, URL fallbacks, and invalid URL handling. No form requests or submissions were made.",
+  "Verified configured/unconfigured contact forms, embedded access at every width, URL fallbacks, and invalid URL handling. No form requests or submissions were made.",
 );

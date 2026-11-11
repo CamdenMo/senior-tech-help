@@ -31,10 +31,10 @@ Update **`src/config/business.ts`**:
 | --------------------- | ---------------------------------------------------------------- |
 | `businessName`        | Name throughout the site and SEO metadata                        |
 | `founderName`         | Founder name on the About page                                   |
-| `contactEmail`        | Visible email and `mailto:` links; currently `hello@example.com` |
+| `contactEmail`        | Real contact email; empty means email links are hidden          |
 | `contactPhone`        | Optional phone; empty means hidden                               |
-| `serviceArea`         | Actual service area; empty means hidden                          |
-| `googleFormEmbedUrl`  | Google Forms iframe URL; empty means an email fallback state     |
+| `serviceArea`         | Based in Southeastern Wisconsin; no specific cities claimed     |
+| `googleFormEmbedUrl`  | Google Forms iframe URL; empty means a labeled placeholder      |
 | `googleFormDirectUrl` | Public form link for opening in a new tab                        |
 | `googleFormHeight`    | Iframe height in pixels; adjust to your actual form              |
 
@@ -58,10 +58,10 @@ See **`ASSETS.md`** for image sources and font licenses. DM Sans and Lora are se
 4. Publish the form and make it available to the intended external respondents. Avoid sign-in restrictions, organization-only access, verified-email collection that requires sign-in, and a one-response limit requiring sign-in. Use an ordinary email question with email validation for Work Email.
 5. In Google Forms, use the **Embed HTML** option (the `<>` control, usually under Send or the sharing menu). Copy only the URL from the iframe’s `src`, for example `https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true`. Set `googleFormEmbedUrl` to that URL, with literal `&` characters rather than HTML `&amp;` entities.
 6. Copy the public responder link into `googleFormDirectUrl`. Use the full `https://docs.google.com/forms/.../viewform` URL. The component accepts HTTPS Google Forms URLs only. If the direct link is empty, the embed URL without `embedded=true` is used as the fallback.
-7. Preview `/contact/` on desktop and a narrow phone screen. At phone widths up to 600px, **Open Contact Form** is the primary action, and **Prefer to fill it out here?** expands the optional on-page iframe. Wider screens show the iframe and **Open Form in New Tab** fallback directly. Set `googleFormHeight` high enough for the longest form state, including validation messages. Cross-origin Google Forms cannot be automatically measured by this site; check the height after changing questions. The outer page scrolls normally, and direct form access remains available if the embed is inconvenient, blocked, or unavailable.
+7. Preview the homepage `/#contact` section and the retained `/contact/` route on desktop and a narrow phone screen. The full-width iframe and **Open Form in New Tab** fallback remain available at every screen width. Set `googleFormHeight` high enough for the longest form state, including validation messages. Cross-origin Google Forms cannot be automatically measured by this site; check the height after changing questions. The outer page scrolls normally, and direct form access remains available if the embed is inconvenient, blocked, or unavailable.
 8. Enable new-response email notifications in the Google Form’s Responses section if desired. Test an actual submission in a private browser window before launch, then verify it arrives in your own form.
 
-The website never submits to undocumented endpoints, stores submissions, or handles account credentials. Google hosts the form and receives responses. Until configured, the site shows a clear form placeholder and email link. The current email is a placeholder too; replace it before accepting inquiries.
+The website never submits to undocumented endpoints, stores submissions, or handles account credentials. Google hosts the form and receives responses. Until configured, the site shows a clearly labeled Google Form placeholder. Email links appear only after a real email is configured; add the form URL and contact email before accepting inquiries.
 
 ## GitHub Pages deployment
 

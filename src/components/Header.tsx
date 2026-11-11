@@ -33,10 +33,9 @@ export function Brand({ light = false }: { light?: boolean }) {
 
 const links = [
   ["Home", ""],
-  ["Services", "services/"],
+  ["Services", ""],
   ["How It Works", "#how-it-works"],
   ["About", "about/"],
-  ["Contact", "contact/"],
 ] as const;
 
 export function Header({ route }: { route: string }) {
@@ -125,6 +124,34 @@ export function Header({ route }: { route: string }) {
         ref={header}
       >
         <div className="container header-inner">
+          <nav
+            id="main-navigation"
+            aria-label="Main navigation"
+            className={`navigation ${open ? "is-open" : ""}`}
+          >
+            {links.map(([label, path]) => (
+              <a
+                key={label}
+                href={sitePath(path)}
+                aria-current={
+                  label !== "Services" && path === (route ? `${route}/` : "")
+                    ? "page"
+                    : undefined
+                }
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              className="nav-cta"
+              href={sitePath("#contact")}
+              onClick={() => setOpen(false)}
+            >
+              Contact
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </nav>
           <Brand />
           <button
             ref={menuButton}
@@ -137,32 +164,6 @@ export function Header({ route }: { route: string }) {
           >
             {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
-          <nav
-            id="main-navigation"
-            aria-label="Main navigation"
-            className={`navigation ${open ? "is-open" : ""}`}
-          >
-            {links.map(([label, path]) => (
-              <a
-                key={label}
-                href={sitePath(path)}
-                aria-current={
-                  path === (route ? `${route}/` : "") ? "page" : undefined
-                }
-                onClick={() => setOpen(false)}
-              >
-                {label}
-              </a>
-            ))}
-            <a
-              className="nav-cta"
-              href={sitePath("contact/")}
-              onClick={() => setOpen(false)}
-            >
-              Partner With Us
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-          </nav>
         </div>
       </header>
       {open && <div className="nav-backdrop" aria-hidden="true" />}

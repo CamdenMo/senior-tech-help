@@ -112,3 +112,36 @@ export const partnershipOptions = [
   "Scheduled one-on-one resident assistance",
   "Group technology workshops",
 ];
+
+export const exampleSession = [
+  {
+    timing: "First",
+    minutes: 30,
+    title: "Group Presentation",
+    activities: [
+      "Introduce a practical technology topic, such as video calls or phone settings.",
+      "Explain common challenges in clear, accessible language.",
+      "Demonstrate useful tools and techniques, step by step.",
+    ],
+  },
+  {
+    timing: "Next",
+    minutes: 60,
+    title: "Guided Hands-On Support",
+    activities: [
+      "Help residents practice what they learned at a comfortable pace.",
+      "Offer personalized assistance with phones, tablets, computers, or applications.",
+      "Answer individual questions and troubleshoot common issues.",
+    ],
+  },
+  {
+    timing: "Final",
+    minutes: 30,
+    title: "Questions & Answers",
+    activities: [
+      "Invite residents to ask questions in an open Q&A.",
+      "Review key takeaways and useful steps to practice later.",
+      "Address remaining technology concerns together.",
+    ],
+  },
+] as const;

@@ -17,27 +17,29 @@ export function Footer() {
           <div>
             <p className="footer-label">Explore</p>
             <nav aria-label="Footer navigation">
-              <a href={sitePath("services/")}>Our services</a>
+              <a href={sitePath()}>Our services</a>
               <a href={sitePath("#how-it-works")}>How it works</a>
               <a href={sitePath("about/")}>About us</a>
             </nav>
           </div>
           <div>
             <p className="footer-label">Let’s connect</p>
-            <a href={sitePath("contact/")} className="footer-contact">
+            <a href={sitePath("#contact")} className="footer-contact">
               Start a conversation
               <ArrowUpRight size={18} aria-hidden="true" />
             </a>
-            <a href={`mailto:${business.contactEmail}`}>
-              {business.contactEmail}
-            </a>
+            {business.contactEmail && (
+              <a href={`mailto:${business.contactEmail}`}>
+                {business.contactEmail}
+              </a>
+            )}
             {business.contactPhone && (
               <a href={`tel:${business.contactPhone.replace(/[^+\d]/g, "")}`}>
                 {business.contactPhone}
               </a>
             )}
             {business.serviceArea && (
-              <p className="footer-area">Serving {business.serviceArea}</p>
+              <p className="footer-area">{business.serviceArea}</p>
             )}
           </div>
         </div>

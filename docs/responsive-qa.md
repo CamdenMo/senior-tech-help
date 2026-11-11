@@ -1,52 +1,40 @@
-# Responsive implementation and verification
+﻿# Responsive implementation and verification — November 11, 2026
 
-The desktop palette, font families, content, photography, and composition are retained. Most adaptations are isolated in `src/responsive.css`; desktop styles remain in `src/styles.css`.
+The existing navy, sage, and cream palette, DM Sans and Lora fonts, photography, buttons, and page structure are retained. No dependencies or routes were added.
 
-## Width review
+## Current layout
 
-These are source-level layout reviews and intended behaviors, **not completed browser or screenshot tests**.
+| Width | Layout reviewed in source |
+| --- | --- |
+| 320–600px | Brand and menu button share the header; menu links stack. The audience statement leads the hero. Session cards stack vertically, and contact content and the form fill the available column. |
+| 768px | Stacked hero, benefits, session cards, partnership, and contact sections; two service columns. |
+| 1024px | Mobile navigation menu; two-column hero and contact layouts; three session cards. |
+| 1440px | Navigation on the left and brand on the right; existing desktop composition with three session cards. |
 
-| Width  | Layout reviewed in source                                                                                                                                                                                        |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 320px  | 20px gutters; compact wrapping brand; 44px menu control; fluid 34px primary headings; full-width wrapping CTA; single-column services; vertical process timeline; stacked footer; form opens directly by default |
-| 375px  | Same phone composition with fluid headings, 16px body copy, and a 4:3 hero photograph                                                                                                                            |
-| 390px  | Same phone composition; long buttons wrap their label while retaining the arrow and full touch area                                                                                                              |
-| 430px  | Single-column services and about preview; no abrupt switch back to narrow cards at 420px                                                                                                                         |
-| 768px  | Stacked hero, benefits, partnership, About, and Contact layouts; two service columns; vertical timeline; two workshop descriptions; desktop form embed remains visible                                           |
-| 1024px | Compact navigation; two-column hero and page layouts; readable service text; desktop-style contact form                                                                                                          |
-| 1440px | Existing desktop navigation and editorial composition retained                                                                                                                                                   |
-
-## Changes addressed
-
-- Replaced the late 760px page stacking threshold with a 900px tablet layout.
-- Removed tiny phone typography and the fixed 44px phone hero heading. Main phone paragraphs and CTA labels use 16px text; supporting labels use 12–14px text.
-- Made buttons wrap through a flexible text span instead of squeezing the text or overflowing.
-- Reserved image space with breakpoint-specific aspect ratios, adjusted object positioning, and added local 720px image candidates.
-- Kept mobile service items in one column through 600px. Icons align beside the text rather than consuming a separate tall row.
-- Connected each timeline number only to the following step, with no line trailing after the final item.
-- Moved the mobile form immediately after the introduction and direct contact details, before “What happens next?”.
-- Prioritized the direct Google Forms link on phones, with an optional on-page embed. Desktop retains the original embed and fallback link.
-- Added navigation background scroll locking, inert background content, keyboard focus containment, Escape dismissal, outside-click dismissal, and desktop-resize cleanup. A short entry transition respects reduced motion.
-- Replaced the cramped phone footer columns with a clear sequence of brand, navigation, and contact links.
+These are source-level reviews, not completed browser or screenshot tests. The iframe has width: 100%, no fixed minimum width, and remains visible at all breakpoints. Its new-tab fallback is also available at every width.
 
 ## Automated verification
 
-`npm run check` runs lint, strict TypeScript, the production build, generated HTML/link/asset checks (including responsive image candidates and CSS font paths), contact-form rendering checks, and direct HTTP requests to every generated route and its stylesheet.
+`npm run check` runs ESLint, strict TypeScript, production/static-page builds, generated-output checks, contact-form component checks, and HTTP checks for every existing route and stylesheet.
 
-Contact checks cover the unconfigured email fallback, valid embeds, the mobile direct-link markup, accessible disclosure markup, direct-URL precedence, query parameter preservation, and invalid URL handling. They render HTML without making requests to Google or submitting anything.
+Generated-output checks verify that Services links home and Contact links to the homepage contact section on every route. Internal hash links are checked against actual generated IDs. Component checks cover valid and missing form configuration, invalid URLs, direct-link fallback handling, and the sample session total of 120 minutes.
 
-The project is also checked with both root and repository base paths. A configured production URL generates the canonical tags and sitemap. These tests verify output and delivery; they cannot establish visual layout, actual focus/scroll behavior, browser text enlargement, or third-party form usability.
+The removed staff-focused sentence was checked against source and generated output. No form requests or submissions were made.
 
-## Remaining browser verification
+## Browser verification limit
 
-Browser testing was attempted. The browser-access host was unavailable, and the native Computer Use session remained stopped by physical Escape. No visual mobile audit is claimed for this pass.
+Browser review was attempted during this update. The browser access host was unavailable. Windows Computer Use also stopped because it could not determine Chrome's current URL confidently enough to enforce its policy. No visual responsive or actual scrolling/menu behavior tests are claimed.
 
-When browser access is restored, test every route at 320, 375, 390, 430, 768, 1024, and 1440px:
+When browser access is restored, check 320, 390, 768, 1024, and 1440px:
 
-1. Check the entire page for horizontal scrolling, clipped text, image subjects, spacing, and footer wrapping.
-2. Open the menu at both the top and middle of a page. Confirm background scroll is locked, the menu itself scrolls on short screens, Tab/Shift+Tab remain inside the header, and Escape restores focus. Select each link and verify the page scroll unlocks. Resize to desktop while open.
-3. Follow every primary CTA and directly refresh `/services/`, `/about/`, and `/contact/`.
-4. Test 200% browser text enlargement, keyboard focus, reduced motion, and landscape phone screens.
-5. After a real Google Form is configured, test direct opening, the optional mobile embed, validation errors, and the submit control in a private browser window. The embed's cross-origin height must be checked against the actual form.
+1. Review the full homepage for horizontal overflow, card readability, heading wrapping, image cropping, and form width.
+2. Open and close the mobile menu; check background scroll locking, Tab/Shift+Tab focus containment, Escape dismissal, and desktop-resize cleanup.
+3. Follow Contact and How It Works from every route, including the retained `/services/` and `/contact/` pages. Confirm the sticky header does not obscure the target, scrolling is smooth, and reduced motion is respected.
+4. Check keyboard navigation and 200% text enlargement.
+5. Once configured, verify the real Google Form at phone and desktop widths, including validation messages and the submit control. Adjust `googleFormHeight` to the actual form.
 
-The form URL, founder name, and email are still launch placeholders. A real Google Form and usable contact details are required before accepting inquiries.
+## Missing configuration and assets
+
+The Google Form URLs and contact email are blank in `src/config/business.ts`. The homepage shows an explicit form placeholder and hides unconfigured email actions. The founder details and portrait remain existing placeholders.
+
+No new logo was found in the repository or attached to the request. The existing header/footer brand and favicon remain until the supplied logo is available. Preserve its aspect ratio and original colors when replacing them.

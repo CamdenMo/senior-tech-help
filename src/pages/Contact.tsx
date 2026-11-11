@@ -2,28 +2,37 @@ import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { business } from "../config/business";
 import { GoogleFormEmbed } from "../components/GoogleFormEmbed";
 
-export function Contact() {
+export function Contact({ homepage = false }: { homepage?: boolean }) {
+  const Heading = homepage ? "h2" : "h1";
   return (
-    <section className="section contact-page">
+    <section
+      id="contact"
+      className="section contact-page"
+      aria-labelledby="contact-heading"
+    >
       <div className="container contact-grid">
         <div className="contact-copy">
           <p className="eyebrow">For community teams who care</p>
-          <h1>
-            Bring Friendly Tech Support to <em>Your Community.</em>
-          </h1>
+          <Heading id="contact-heading">
+            Bring Technology Support to <em>Your Community.</em>
+          </Heading>
           <p className="page-intro">
-            Interested in offering technology assistance to your residents? We’d
-            love to learn about your community.
+            Property managers and community administrators: let’s talk about
+            scheduling in-person technology education and support for your senior
+            apartments or senior living community. We’ll work with you to customize
+            topics, session length, and format around your residents’ needs.
           </p>
           <div className="direct-contact">
-            <a href={`mailto:${business.contactEmail}`}>
-              <Mail size={22} strokeWidth={1.5} aria-hidden="true" />
-              <span>
-                <span className="contact-label">Email us directly</span>
-                {business.contactEmail}
-              </span>
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
+            {business.contactEmail && (
+              <a href={`mailto:${business.contactEmail}`}>
+                <Mail size={22} strokeWidth={1.5} aria-hidden="true" />
+                <span>
+                  <span className="contact-label">Email us directly</span>
+                  {business.contactEmail}
+                </span>
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+            )}
             {business.contactPhone && (
               <a href={`tel:${business.contactPhone.replace(/[^+\d]/g, "")}`}>
                 <Phone size={22} aria-hidden="true" />

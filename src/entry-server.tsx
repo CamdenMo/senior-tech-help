@@ -11,7 +11,7 @@ const meta: Record<string, { title: string; description: string }> = {
   "": {
     title: `${business.businessName} | On-Site Technology Support for Senior Living`,
     description:
-      "Patient, personal technology assistance for senior living communities. Partner with us for on-site resident support, technology help sessions, and workshops.",
+      "Based in Southeastern Wisconsin. In-person technology education and support for senior apartments and senior living communities, coordinated with your team.",
   },
   services: {
     title: `Resident Technology Services | ${business.businessName}`,
@@ -23,7 +23,7 @@ const meta: Record<string, { title: string; description: string }> = {
     description: `Meet the approach behind ${business.businessName}: friendly explanations, respect, and patient technology assistance for older adults in your community.`,
   },
   contact: {
-    title: `Partner With Us | ${business.businessName}`,
+    title: `Contact | ${business.businessName}`,
     description:
       "Bring friendly technology assistance to your senior living community. Contact us to discuss resident needs, on-site visits, and group workshops.",
   },

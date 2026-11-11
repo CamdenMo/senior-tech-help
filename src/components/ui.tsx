@@ -4,7 +4,7 @@ import { sitePath } from "../config/business";
 
 export function Button({
   children,
-  href = sitePath("contact/"),
+  href = sitePath("#contact"),
   variant = "primary",
   className = "",
 }: {
@@ -37,11 +37,13 @@ export function TextLink({
 }
 
 export function SectionHeading({
+  id,
   eyebrow,
   title,
   children,
   className = "",
 }: {
+  id?: string;
   eyebrow: string;
   title: string;
   children?: ReactNode;
@@ -50,7 +52,7 @@ export function SectionHeading({
   return (
     <div className={`section-heading ${className}`}>
       <p className="eyebrow">{eyebrow}</p>
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {children && <p className="section-intro">{children}</p>}
     </div>
   );

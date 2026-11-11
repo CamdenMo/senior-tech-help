@@ -26,6 +26,27 @@ for (const route of routes) {
     `${route}: skip link target exists`,
   );
   assert.ok(!html.includes("<!--app-html-->"), `${route}: must be prerendered`);
+  const navigation = html.match(/<nav id="main-navigation"[\s\S]*?<\/nav>/)?.[0];
+  assert.ok(navigation, `${route}: main navigation exists`);
+  assert.ok(
+    navigation.includes(`href="${base}">Services</a>`),
+    `${route}: Services links to the homepage`,
+  );
+  assert.ok(
+    navigation.includes(`href="${base}#contact"`),
+    `${route}: Contact links to the homepage contact section`,
+  );
+  for (const match of html.matchAll(/href="([^"#]*)#([^"#]+)"/g)) {
+    const [, path, anchor] = match;
+    if (path && !path.startsWith(base)) continue;
+    const target = path
+      ? await readFile(`dist/${path.slice(base.length)}index.html`, "utf8")
+      : html;
+    assert.ok(
+      target.includes(`id="${anchor}"`),
+      `${route}: anchor ${path}#${anchor} has a target`,
+    );
+  }
   for (const match of html.matchAll(/(?:src|href)="([^"?#]+)"/g)) {
     const url = match[1];
     if (!url.startsWith("/") || url.startsWith("//")) continue;

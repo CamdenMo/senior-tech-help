@@ -11,7 +11,8 @@ import {
 import { ServiceItem } from "../components/ServiceItem";
 import { ProcessStep } from "../components/ProcessStep";
 import { PartnershipOption } from "../components/PartnershipOption";
-import { ContactCTA } from "../components/ContactCTA";
+import { Contact } from "./Contact";
+import { ExampleSession } from "../components/ExampleSession";
 
 export function Home() {
   return (
@@ -19,27 +20,28 @@ export function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="eyebrow-line" />
-              People first. Technology second.
+            <p className="hero-audience">
+              For Senior Apartments &amp; Senior Living Communities
             </p>
             <h1>
               Technology Support That Comes to <em>Your Community.</em>
             </h1>
             <p className="hero-description">
-              Friendly, professional technology assistance for senior living
-              communities. We help residents navigate everyday technology with
-              patience, confidence, and a personal touch.
+              Partner with us to bring accessible, in-person technology education
+              and support to your residents. We work with property managers and
+              community administrators to help residents learn, ask questions,
+              and build everyday confidence.
             </p>
             <div className="hero-actions">
               <Button>Bring Tech Support to Your Community</Button>
-              <TextLink href={sitePath("services/")}>
+              <TextLink href="#services">
                 Explore Our Services
               </TextLink>
             </div>
             <p className="hero-note">
               <Check size={17} aria-hidden="true" />
-              On-site support, thoughtfully coordinated with your team.
+              Based in Southeastern Wisconsin. In-person support for communities
+              in the surrounding region.
             </p>
           </div>
           <div className="hero-visual">
@@ -58,7 +60,7 @@ export function Home() {
           </div>
         </div>
         <div className="container hero-bottom">
-          <p>For senior apartments & senior living communities</p>
+          <p>People first. Technology second.</p>
           <a
             href="#why-it-matters"
             aria-label="Discover the benefits for your community"
@@ -73,10 +75,11 @@ export function Home() {
         <div className="container value-grid">
           <SectionHeading
             eyebrow="Good for residents. Good for your community."
-            title="A Better Experience for Residents. One Less Thing for Your Team."
+            title="Confident Residents. A More Connected Community."
           >
-            Technology questions are part of everyday life. Having someone
-            patient to turn to can make all the difference.
+            Enrich your community’s activity offerings with practical learning
+            that supports resident independence. A welcoming place to practice
+            and ask questions helps new skills become everyday habits.
           </SectionHeading>
           <div className="benefits">
             <article>
@@ -85,16 +88,18 @@ export function Home() {
                 <h3>More confidence. More connection.</h3>
                 <p>
                   Help residents feel more comfortable using the technology that
-                  connects them to family, friends, and everyday life.
+                  connects them to family and friends, helps them access online
+                  services, and supports everyday independence.
                 </p>
               </div>
             </article>
             <article>
               <MapPin size={26} strokeWidth={1.4} aria-hidden="true" />
               <div>
-                <h3>Helpful support, right where they live.</h3>
+                <h3>An engaging activity, right where they live.</h3>
                 <p>
-                  Convenient on-site assistance brings personalized help into
+                  Give residents a structured opportunity to learn together,
+                  practice on their own devices, and get personalized help in
                   the familiar surroundings of your community.
                 </p>
               </div>
@@ -102,10 +107,12 @@ export function Home() {
             <article>
               <Coffee size={26} strokeWidth={1.4} aria-hidden="true" />
               <div>
-                <h3>A little breathing room for your team.</h3>
+                <h3>A practical partner for your community team.</h3>
                 <p>
-                  Give staff a dedicated resource for everyday technology
-                  questions, so they can focus on caring for your community.
+                  Offer accessible technology education without needing to be
+                  a technology expert. As residents build skills and learn where
+                  to turn for guidance, they can handle more everyday tasks
+                  independently between sessions.
                 </p>
               </div>
             </article>
@@ -113,7 +120,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section services-section">
+      <section id="services" className="section services-section">
         <div className="container">
           <div className="section-topline">
             <SectionHeading
@@ -151,6 +158,8 @@ export function Home() {
           </ol>
         </div>
       </section>
+
+      <ExampleSession />
 
       <section className="section partnership-section">
         <div className="container partnership-grid">
@@ -212,7 +221,7 @@ export function Home() {
           </span>
         </div>
       </section>
-      <ContactCTA />
+      <Contact homepage />
     </>
   );
 }
