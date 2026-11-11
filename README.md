@@ -65,7 +65,7 @@ The website never submits to undocumented endpoints, stores submissions, or hand
 
 ## GitHub Pages deployment
 
-Deployment uses the **gh-pages branch**, with the built site at its root. The React source stays on `main`. You do not need a custom GitHub Actions workflow. The production URL is **https://camdenmo.github.io/senior-tech-help/**.
+Deployment uses the **gh-pages branch**, with the built site at its root. The React source stays on `main`. You do not need a custom GitHub Actions workflow. The production URL is **https://communitytechcare.com/**.
 
 From the project folder, run:
 
@@ -80,19 +80,21 @@ For the first deployment:
 1. Run `npm run deploy` to create the `gh-pages` branch on GitHub. You need Git push access to the repository and a configured Git name/email.
 2. Open **Settings → Pages → Build and deployment → Source** and select **Deploy from a branch**.
 3. Select **gh-pages**, choose **/(root)**, and click **Save**.
-4. Wait for GitHub Pages to publish, then visit **https://camdenmo.github.io/senior-tech-help/**. Refresh `/services/`, `/about/`, and `/contact/` directly to confirm the pages.
+4. Wait for GitHub Pages to publish, then visit **https://communitytechcare.com/**. Refresh `/services/`, `/about/`, and `/contact/` directly to confirm the pages.
 
 For later updates, run `npm run deploy` again. Pushing source changes to `main` alone does not rebuild or publish the site. Commit your source changes separately so the source and build remain reproducible. GitHub still performs its own Pages publishing job behind the scenes; no repository workflow YAML is needed.
 
-The committed `.env.production` supplies the correct repository base path and canonical URL for builds and production previews. `npm run dev` continues to serve locally at `/`. To publish from another repository, edit `.env.production` or create an ignored `.env.production.local` override:
+The committed `.env.production` supplies the custom domain's root base path, canonical URL, and generated `CNAME` file. `npm run dev` continues to serve locally at `/`. To switch hosting, edit `.env.production` or create an ignored `.env.production.local` override:
 
-| Variable             | This repository                               | Custom domain example         |
-| -------------------- | --------------------------------------------- | ----------------------------- |
-| `VITE_BASE_PATH`     | `/senior-tech-help/`                          | `/`                           |
-| `VITE_SITE_URL`      | `https://camdenmo.github.io/senior-tech-help` | `https://www.your-domain.com` |
-| `SITE_CUSTOM_DOMAIN` | empty                                         | `www.your-domain.com`         |
+| Variable             | Current custom domain           | Repository URL alternative                    |
+| -------------------- | ------------------------------- | --------------------------------------------- |
+| `VITE_BASE_PATH`     | `/`                             | `/senior-tech-help/`                          |
+| `VITE_SITE_URL`      | `https://communitytechcare.com` | `https://camdenmo.github.io/senior-tech-help` |
+| `SITE_CUSTOM_DOMAIN` | `communitytechcare.com`         | empty                                         |
 
-These are public configuration values, not secrets. `VITE_SITE_URL` must include the complete production path matching `VITE_BASE_PATH`. `.env.local` affects development; production-specific files take precedence during builds. Environment values prefixed with `VITE_` are compiled into public files. `npm run preview` serves the built project under `/senior-tech-help/`.
+These are public configuration values, not secrets. `VITE_SITE_URL` must include the complete production path matching `VITE_BASE_PATH`. `.env.local` affects development; production-specific files take precedence during builds. Environment values prefixed with `VITE_` are compiled into public files. `npm run preview` serves the current custom-domain build at `/`.
+
+If HTML loads but images, JavaScript, fonts, or CSS return 404 after changing domains, check the requested paths. A custom domain needs `VITE_BASE_PATH=/`; repository hosting needs `/senior-tech-help/`. Update all three settings together and run `npm run deploy` again. Keep the custom-domain hostname configured so every deployment preserves `CNAME`.
 
 ### Clean URLs and direct refreshes
 
