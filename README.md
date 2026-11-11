@@ -65,24 +65,34 @@ The website never submits to undocumented endpoints, stores submissions, or hand
 
 ## GitHub Pages deployment
 
-The workflow in **`.github/workflows/deploy.yml`** builds and deploys on pushes to `main`, with a manual **Run workflow** option. It runs lint, type checking, a production build, and generated-output verification before deployment. It uses official GitHub Pages actions with the required permissions.
+Deployment uses the **gh-pages branch**, with the built site at its root. The React source stays on `main`. You do not need a custom GitHub Actions workflow. The production URL is **https://camdenmo.github.io/senior-tech-help/**.
 
-1. Commit this project and push it to your GitHub repository’s `main` branch.
-2. In the repository, open **Settings → Pages → Build and deployment → Source**, and select **GitHub Actions**.
-3. Run the **Deploy to GitHub Pages** workflow, or push another commit to `main`.
-4. Open the URL reported by the deployment. Refresh `/services/`, `/about/`, and `/contact/` directly to check the published pages.
+From the project folder, run:
 
-The workflow gets the correct base path and production URL from `actions/configure-pages`. For a project repository, these are normally `/senior-tech-help/` and `https://YOUR-USERNAME.github.io/senior-tech-help`. For a user/organization root site or custom domain, the base path is `/`.
+```sh
+npm run deploy
+```
 
-Optional **Settings → Secrets and variables → Actions → Variables** overrides:
+This runs lint, TypeScript, a production build, generated-output checks, contact-form checks, and direct-route HTTP checks. Once they pass, the development-only `gh-pages` publisher commits and pushes the contents of `dist/` (including `.nojekyll`) to the remote `gh-pages` branch. It uses your existing Git credentials. It does not commit or push source changes on `main`.
 
-| Variable             | Project repository example                         | Custom domain example         |
-| -------------------- | -------------------------------------------------- | ----------------------------- |
-| `VITE_BASE_PATH`     | `/senior-tech-help/`                               | `/`                           |
-| `VITE_SITE_URL`      | `https://YOUR-USERNAME.github.io/senior-tech-help` | `https://www.your-domain.com` |
-| `SITE_CUSTOM_DOMAIN` | leave unset                                        | `www.your-domain.com`         |
+For the first deployment:
 
-These are public configuration values, not secrets. `VITE_SITE_URL` must include the complete production path matching `VITE_BASE_PATH`. Copy `.env.example` to `.env.local` to configure equivalent local builds. Environment values prefixed with `VITE_` are compiled into public files.
+1. Run `npm run deploy` to create the `gh-pages` branch on GitHub. You need Git push access to the repository and a configured Git name/email.
+2. Open **Settings → Pages → Build and deployment → Source** and select **Deploy from a branch**.
+3. Select **gh-pages**, choose **/(root)**, and click **Save**.
+4. Wait for GitHub Pages to publish, then visit **https://camdenmo.github.io/senior-tech-help/**. Refresh `/services/`, `/about/`, and `/contact/` directly to confirm the pages.
+
+For later updates, run `npm run deploy` again. Pushing source changes to `main` alone does not rebuild or publish the site. Commit your source changes separately so the source and build remain reproducible. GitHub still performs its own Pages publishing job behind the scenes; no repository workflow YAML is needed.
+
+The committed `.env.production` supplies the correct repository base path and canonical URL for builds and production previews. `npm run dev` continues to serve locally at `/`. To publish from another repository, edit `.env.production` or create an ignored `.env.production.local` override:
+
+| Variable             | This repository                               | Custom domain example         |
+| -------------------- | --------------------------------------------- | ----------------------------- |
+| `VITE_BASE_PATH`     | `/senior-tech-help/`                          | `/`                           |
+| `VITE_SITE_URL`      | `https://camdenmo.github.io/senior-tech-help` | `https://www.your-domain.com` |
+| `SITE_CUSTOM_DOMAIN` | empty                                         | `www.your-domain.com`         |
+
+These are public configuration values, not secrets. `VITE_SITE_URL` must include the complete production path matching `VITE_BASE_PATH`. `.env.local` affects development; production-specific files take precedence during builds. Environment values prefixed with `VITE_` are compiled into public files. `npm run preview` serves the built project under `/senior-tech-help/`.
 
 ### Clean URLs and direct refreshes
 
@@ -95,11 +105,11 @@ The build renders React into actual `index.html` files at `/`, `/services/`, `/a
 3. Set `VITE_BASE_PATH=/`, `VITE_SITE_URL=https://your-domain.com` (or your exact `www` hostname), and optionally `SITE_CUSTOM_DOMAIN=your-domain.com`. The latter generates `dist/CNAME` on every build. Use the same hostname everywhere.
 4. Redeploy. Once DNS and the certificate are ready, enable **Enforce HTTPS** in Pages settings. Check both HTTP-to-HTTPS redirection and any apex/`www` redirect you configured.
 
-This project prepares deployment; it does not create DNS records, change GitHub account settings, or publish until you push/run the workflow in your repository.
+The deployment command pushes the built site to `gh-pages`. It does not create DNS records or change GitHub Pages account settings. Configure Pages to publish that branch once, as described above.
 
 ## SEO and accessibility
 
-Every generated page has its own title and description, Open Graph metadata, one primary heading, and visible content in the initial HTML. When `VITE_SITE_URL` is set, the build adds canonical URLs, absolute social preview image URLs, and `sitemap.xml`; `robots.txt` references the sitemap. Without a production URL, these URL-dependent fields are intentionally omitted. The Pages workflow supplies that URL automatically. The sitemap is generated at build time, not maintained by hand. On repository-path hosting, `robots.txt` is also under that repository path; only the domain-root robots file governs crawlers.
+Every generated page has its own title and description, Open Graph metadata, one primary heading, and visible content in the initial HTML. When `VITE_SITE_URL` is set, the build adds canonical URLs, absolute social preview image URLs, and `sitemap.xml`; `robots.txt` references the sitemap. Without a production URL, these URL-dependent fields are intentionally omitted. The committed `.env.production` supplies the production URL. The sitemap is generated at build time, not maintained by hand. On repository-path hosting, `robots.txt` is also under that repository path; only the domain-root robots file governs crawlers.
 
 Organization JSON-LD includes only configured business details, without an invented address or credentials. Placeholder email is omitted. The 404 page is marked `noindex`.
 
@@ -110,7 +120,7 @@ Accessibility features include semantic landmarks, a skip link, keyboard focus s
 - Replace the founder name, contact email, optional phone, and actual service area.
 - Replace the founder portrait and review all placeholder imagery and copy.
 - Publish and configure your Google Form; test its external access, mobile layout, and response delivery.
-- Enable GitHub Pages with GitHub Actions, push to `main`, and inspect the workflow result.
+- Run `npm run deploy`, select `gh-pages` / `/(root)` in Pages settings, and check the published site.
 - Confirm the production URL, nested-page refreshes, canonical URLs, sitemap, and HTTPS.
 
 ## Implementation notes
