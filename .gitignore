@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.ssr/
+.component-checks/
+.env
+.env.local
+.env.*.local
+*.log
+artifacts/
